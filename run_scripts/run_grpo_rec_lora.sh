@@ -2,14 +2,14 @@ PROJECT_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 export REPO_HOME="${PROJECT_ROOT}"
 echo "REPO_HOME: $REPO_HOME"
 # on remote
-data_paths="train.jsonl:test.jsonl"
+data_paths="/data3/qianqi/code/Misinfo/VLM-R1/train.jsonl:/data3/qianqi/code/Misinfo/VLM-R1/val.jsonl"
 image_folders="/data3/qianqi/dataset/visual_news/origin:/data3/qianqi/dataset/visual_news/origin"
 model_path="/data2/qianqi/model_weights/Qwen2.5-VL-3B-Instruct"
 is_reward_customized_from_vlm_module=False
 echo "data_paths: $data_paths"
 echo "image_folders: $image_folders"
 
-export EXP_NAME="Qwen2.5-VL-3B-Instruct-rec-lora" # TODO: change this to your own experiment name
+export EXP_NAME="Qwen2.5-VL-3B-Instruct" # TODO: change this to your own experiment name
 TASK_TYPE="custom"
 cd ${REPO_HOME}/src/open-r1-multimodal
 
@@ -27,7 +27,7 @@ torchrun --nproc_per_node="8" \
     --node_rank="0" \
     --master_addr="127.0.0.1" \
     --master_port="12349" \
-  src/open-r1-multimodal/src/open_r1/grpo_jsonl.py \
+  src/open_r1/grpo_misinfo.py \
     --use_vllm False \
     --output_dir ${REPO_HOME}/checkpoints/rl/${EXP_NAME} \
     --resume_from_checkpoint True \

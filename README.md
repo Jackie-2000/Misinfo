@@ -1,3 +1,10 @@
+```bash
+pip install json_repair
+pip install -U peft
+
+MAX_JOBS=4 pip install flash-attn --no-build-isolation
+```
+
 # VLM-R1: A stable and generalizable R1-style Large Vision-Language Model
 
 <font size=4><div align='center' > [[🤗 REC Demo](https://huggingface.co/spaces/omlab/VLM-R1-Referral-Expression)] [[🤗 OVD Demo](https://huggingface.co/spaces/omlab/VLM-R1-OVD)] [[🤗 REC Data](https://huggingface.co/datasets/omlab/VLM-R1)] [[🤗 Checkpoints](https://huggingface.co/collections/omlab/vlm-r1-models-67b7352db15c19d57157c348)] </div></font>
