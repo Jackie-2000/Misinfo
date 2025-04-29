@@ -9,7 +9,7 @@ is_reward_customized_from_vlm_module=False
 echo "data_paths: $data_paths"
 echo "image_folders: $image_folders"
 
-export EXP_NAME="Qwen2.5-VL-3B-Instruct" # TODO: change this to your own experiment name
+export EXP_NAME="bs_16_ng_4_lora_Qwen2.5-VL-3B-Instruct" # TODO: change this to your own experiment name
 TASK_TYPE="custom"
 cd ${REPO_HOME}/src/open-r1-multimodal
 
@@ -22,7 +22,7 @@ export LOG_PATH="${REPO_HOME}/runs/${EXP_NAME}/log/debug_log.$(date +%Y-%m-%d-%H
 
 # export WANDB_DISABLED=true
 # CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6
-torchrun --nproc_per_node="8" \
+torchrun --nproc_per_node="4" \
     --nnodes="1" \
     --node_rank="0" \
     --master_addr="127.0.0.1" \
@@ -36,17 +36,17 @@ torchrun --nproc_per_node="8" \
     --image_folders $image_folders \
     --is_reward_customized_from_vlm_module $is_reward_customized_from_vlm_module \
     --task_type $TASK_TYPE \
-    --per_device_train_batch_size 8 \
+    --per_device_train_batch_size 16 \
     --gradient_accumulation_steps 2 \
     --gradient_checkpointing true \
     --logging_steps 1 \
-    --num_train_epochs 2 \
+    --num_train_epochs 1 \
     --bf16 \
     --attn_implementation flash_attention_2 \
     --run_name ${EXP_NAME} \
     --data_seed 42 \
     --save_steps 100 \
-    --num_generations 8 \
+    --num_generations 4 \
     --max_completion_length 2048 \
     --reward_funcs accuracy format \
     --beta 0.04 \
