@@ -9,7 +9,7 @@ is_reward_customized_from_vlm_module=False
 echo "data_paths: $data_paths"
 echo "image_folders: $image_folders"
 
-export EXP_NAME="bs_16_ng_4_lora_Qwen2.5-VL-3B-Instruct" # TODO: change this to your own experiment name
+export EXP_NAME="bs_8_ng_4_lora_Qwen2.5-VL-3B-Instruct" # TODO: change this to your own experiment name
 TASK_TYPE="custom"
 cd ${REPO_HOME}/src/open-r1-multimodal
 
@@ -22,7 +22,7 @@ export LOG_PATH="${REPO_HOME}/runs/${EXP_NAME}/log/debug_log.$(date +%Y-%m-%d-%H
 
 # export WANDB_DISABLED=true
 # CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6
-torchrun --nproc_per_node="4" \
+PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True torchrun --nproc_per_node="4" \
     --nnodes="1" \
     --node_rank="0" \
     --master_addr="127.0.0.1" \
@@ -36,7 +36,7 @@ torchrun --nproc_per_node="4" \
     --image_folders $image_folders \
     --is_reward_customized_from_vlm_module $is_reward_customized_from_vlm_module \
     --task_type $TASK_TYPE \
-    --per_device_train_batch_size 16 \
+    --per_device_train_batch_size 8 \
     --gradient_accumulation_steps 2 \
     --gradient_checkpointing true \
     --logging_steps 1 \
@@ -47,7 +47,7 @@ torchrun --nproc_per_node="4" \
     --data_seed 42 \
     --save_steps 100 \
     --num_generations 4 \
-    --max_completion_length 2048 \
+    --max_completion_length 1024 \
     --reward_funcs accuracy format \
     --beta 0.04 \
     --report_to wandb \
